@@ -38,6 +38,13 @@ describe("inline-commented ini parsing", () => {
     })
 })
 
+describe("commented ini with empty line parsing", () => {
+    it("output object should equal given object", () => {
+        str = fs.readFileSync(path.join(ini_folder, "commented_empty_line.ini"), "utf-8")
+        ini.parse(str).should.eql(parsedINI)
+    })
+})
+
 describe("parsed object stringify", () => {
     it("output string should equal given string", () => {
         ini.stringify(parsedINI).should.equal(strINI)
