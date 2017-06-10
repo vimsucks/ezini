@@ -1,7 +1,5 @@
 "use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var os = require("os");
 
 function parse(str) {
@@ -27,6 +25,8 @@ function parse(str) {
                 } else {
                     output[section][match[1].trim()] = match[2].trim().replace(/^"|"$/g, "");
                 }
+            } else {
+                return;
             }
         }
     });
@@ -40,7 +40,8 @@ function stringify(ini) {
     Object.keys(ini).forEach(function (key) {
         if (typeof ini[key] === "string") {
             output += key + "=" + ini[key] + os.EOL;
-        } else if (_typeof(ini[key]) === "object") {
+            // } else if (typeof ini[key] === "object") {
+        } else {
             if (firstOccur) {
                 firstOccur = false;
             } else {

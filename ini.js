@@ -24,6 +24,8 @@ function parse(str) {
                 } else {
                     output[section][match[1].trim()]=match[2].trim().replace(/^"|"$/g, "")
                 }
+            } else {
+                return
             }
         }
     })
@@ -37,7 +39,8 @@ function stringify(ini) {
     Object.keys(ini).forEach((key) => {
         if (typeof ini[key] === "string") {
             output += key + "=" + ini[key] + os.EOL
-        } else if (typeof ini[key] === "object") {
+        // } else if (typeof ini[key] === "object") {
+        } else {
             if (firstOccur) {
                 firstOccur = false
             } else {

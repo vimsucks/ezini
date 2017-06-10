@@ -47,9 +47,32 @@ describe("commented ini with empty line parsing", function () {
     });
 });
 
+describe("start with properties ini parsing", function () {
+    it("output object should equal given object", function () {
+        var str = fs.readFileSync(path.join(ini_folder, "start_with_properties.ini"), "utf-8");
+        var obj = JSON.parse(JSON.stringify(parsedINI));
+        obj.author = "vimsucks";
+        ini.parse(str).should.eql(obj);
+    });
+});
+
+describe("ini syntax error parsing", function () {
+    it("output object should equal given object", function () {
+        var str = fs.readFileSync(path.join(ini_folder, "syntax_error.ini"), "utf-8");
+        ini.parse(str).should.eql(parsedINI);
+    });
+});
+
 describe("parsed object stringify", function () {
     it("output string should equal given string", function () {
         ini.stringify(parsedINI).should.equal(strINI);
+    });
+});
+
+describe("parsed start-with-properties object stringify", function () {
+    it("output string should equal given string", function () {
+        var str = fs.readFileSync(path.join(ini_folder, "start_with_properties.ini"), "utf-8");
+        ini.stringify(ini.parse(str)).should.equal("author=vimsucks\n" + strINI);
     });
 });
 //# sourceMappingURL=ini.test.js.map
