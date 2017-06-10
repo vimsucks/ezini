@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/vimsucks/ezini.svg?branch=master)](https://travis-ci.org/vimsucks/ezini)
+
+
 An very easy to user ini file parser and serializer for node.js
 
 ## Installation
@@ -10,12 +12,12 @@ npm install --save ezini
 ```node
 const ini = require("ezini");
 ```
-ezini has only two method
+ezini has only two methods
 
-### parse(str)
+### `parse(str)`
 Return an object which parsed from a ini-formated str
 
-### stringify(obj)
+### `stringify(obj)`
 Return an ini-formated string serialized from an Object
 
 ## Example
