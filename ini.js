@@ -1,17 +1,18 @@
+"use strict"
 const os = require("os")
 
 function parse(str) {
     var output = {}
     var section = null
 
-    lines = str.split(os.EOL)
+    var lines = str.split(os.EOL)
     lines.forEach((line) => {
         // skip if empty or comment line
         // remove comment
         line = line.replace(/;.*/, "")
         if (line.trim().length ===0)  return
         // if this line is section
-        match = line.match(/^\[(.*)\]$/)
+        var match = line.match(/^\[(.*)\]$/)
         if (match && match[1] !== undefined) {
             section = match[1].trim()
             output[section]={}
@@ -32,6 +33,7 @@ function parse(str) {
 function stringify(ini) {
     var output = ""
     var firstOccur = true
+
     Object.keys(ini).forEach((key) => {
         if (typeof ini[key] === "string") {
             output += key + "=" + ini[key] + os.EOL
