@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/vimsucks/ezini.svg?branch=master)](https://travis-ci.org/vimsucks/ezini)
 An very easy to user ini file parser and serializer for node.js
 
 ## Installation
