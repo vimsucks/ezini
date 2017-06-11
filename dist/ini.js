@@ -2,7 +2,14 @@
 
 var os = require("os");
 
-function parse(str) {
+function parse(str, callback) {
+    process.nextTick(function () {
+        var output = parseSync(str);
+        callback(output);
+    });
+}
+
+function parseSync(str) {
     var output = {};
     var section = null;
 
@@ -33,14 +40,21 @@ function parse(str) {
     return output;
 }
 
-function stringify(ini) {
+function stringify(obj, callback) {
+    process.nextTick(function () {
+        var str = stringifySync(obj);
+        callback(str);
+    });
+}
+
+function stringifySync(obj) {
     var output = "";
     var firstOccur = true;
 
-    Object.keys(ini).forEach(function (key) {
-        if (typeof ini[key] === "string") {
-            output += key + "=" + ini[key] + os.EOL;
-            // } else if (typeof ini[key] === "object") {
+    Object.keys(obj).forEach(function (key) {
+        if (typeof obj[key] === "string") {
+            output += key + "=" + obj[key] + os.EOL;
+            // } else if (typeof obj[key] === "object") {
         } else {
             if (firstOccur) {
                 firstOccur = false;
@@ -48,8 +62,8 @@ function stringify(ini) {
                 output += os.EOL;
             }
             output += "[" + key + "]" + os.EOL;
-            Object.keys(ini[key]).forEach(function (innerKey) {
-                output += innerKey + "=" + ini[key][innerKey] + os.EOL;
+            Object.keys(obj[key]).forEach(function (innerKey) {
+                output += innerKey + "=" + obj[key][innerKey] + os.EOL;
             });
         }
     });
@@ -57,5 +71,7 @@ function stringify(ini) {
 }
 
 exports.parse = parse;
+exports.parseSync = parseSync;
 exports.stringify = stringify;
+exports.stringifySync = stringifySync;
 //# sourceMappingURL=ini.js.map

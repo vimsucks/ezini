@@ -4,24 +4,33 @@
 An very easy to user ini file parser and serializer for node.js
 
 ## Installation
-```bash
+```
 npm install --save ezini
 ```
 
 ## Usage
-```node
+```javascript
 const ini = require("ezini");
 ```
-ezini has only two methods
 
-### `parse(str)`
-Return an object which parsed from a ini-formated str
+### `parse(str, callback)`
+```javascript
+ini.parse(str, (obj) => {
+    console.log(obj)
+})
+```
+or use the  synchronize version `parseSync(str)`
 
-### `stringify(obj)`
-Return an ini-formated string serialized from an Object
+### `stringify(obj, callback)`
+```javascript
+ini.stringify(obj, (str) => {
+    console.log(str)
+})
+```
+or use the  synchronize version `stringifySync(obj)`
 
 ## Example
-Giving a example ini file `foobar.ini` which looks like:
+Giving a example ini file `foobar.ini` which looks like this:
 ```ini
 [owner]
 name=John Do
@@ -35,19 +44,23 @@ file = "acme payroll.dat"
 ```
 You can parse this ini file like this:
 ```javascript
-strINI = fs.readFileSync(".foobar"), "utf-8")
-obj = ini.parse(strINI)
+str = fs.readFileSync(".foobar"), "utf-8")
+ini.parse(strINI, (obj) => {
+    console.log(obj)
+})
 ```
 and then `obj` whould looks like this:
-```node
+```javascript
 { owner: { name: 'John Do', organization: 'Acme eProducts' },
 database: { server: '192.0.2.42', port: '143', file: 'acme payroll.dat' } }
 ```
 You can also stringify the object:
-```node
-str = ini.stringify(obj)
+```javascript
+ini.stringify(obj, (str) => {
+    console.log(str)
+})
 ```
-`str` looks like:
+`str` would looks like this:
 ```ini
 [owner]
 name=John Do
