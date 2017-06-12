@@ -1,5 +1,10 @@
 const os = require("os")
 
+/**
+ * Parse a INI-format string to an object
+ * @param {string} str INI-format string
+ * @returns {Object} Object parsed from the given string
+ */
 function parseSync(str) {
 	const output = {}
 	let section = null
@@ -27,6 +32,7 @@ function parseSync(str) {
 					// if value is a number
 					value = Number(value)
 				} else {
+					// regard value as string
 					value = value.replace(/^"|"$/g, "")
 				}
 				if (section === null) {
@@ -41,6 +47,12 @@ function parseSync(str) {
 	return output
 }
 
+/**
+ * Async wrapper of function parseSync
+ * @param {string} str INI-format string
+ * @param callback Callback after parsing complete,
+ *     should have one parameter: obj(the parsed object)
+ */
 function parse(str, callback) {
 	process.nextTick(() => {
 		const output = parseSync(str)
@@ -48,6 +60,11 @@ function parse(str, callback) {
 	})
 }
 
+/**
+ * Stringify an object to an ini-format string
+ * @param {Object} obj Object to be stringify
+ * @returns {string} INI-format string which is stringified from given object
+ */
 function stringifySync(obj) {
 	let output = ""
 	let firstOccur = true
@@ -56,7 +73,6 @@ function stringifySync(obj) {
 		if (typeof obj[key] === "string") {
 			output += `${key}=${obj[key]}`
 			output += os.EOL
-			// } else if (typeof obj[key] === "object") {
 		} else {
 			if (firstOccur) {
 				firstOccur = false
@@ -68,7 +84,10 @@ function stringifySync(obj) {
 			Object.keys(obj[key]).forEach((innerKey) => {
 				let value = obj[key][innerKey]
 				if (typeof value === "string") {
-					if (!isNaN(Number(value)) || value.toLowerCase() === "true" || value.toLowerCase() === "false") {
+					// if value can ber converted to number or boolean,
+					// but it should be a string,
+					// so keep the quotes to indicate its type
+					if (!isNaN(value) || value.toLowerCase() === "true" || value.toLowerCase() === "false") {
 						value = `"${value}"`
 					}
 				}
@@ -77,9 +96,15 @@ function stringifySync(obj) {
 			})
 		}
 	})
-	return output.substring(0, output.length - 1)
+	return output
 }
 
+/**
+ * Async wrapper of function stringifySync
+ * @param {Object} obj Object to be stringify
+ * @param callback Callback after parsing complete,
+ *     should have one parameter: str(stringified from given object)
+ */
 function stringify(obj, callback) {
 	process.nextTick(() => {
 		const str = stringifySync(obj)
