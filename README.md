@@ -53,7 +53,7 @@ ini.parse(strINI, (obj) => {
     console.log(obj)
 })
 ```
-and then `obj` whould looks like this:
+and then `obj` would looks like this:
 ```javascript
 { owner: 
    { name: 'John Do',

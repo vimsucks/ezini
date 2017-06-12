@@ -107,8 +107,6 @@ describe("composite str parsing", () => {
         obj.owner.richStr = "true"
         obj.database.portStr = "143"
         ini.parseSync(str).should.eql(obj)
-        console.log(obj)
-        console.log(ini.stringifySync(obj))
     })
 })
 
@@ -145,3 +143,4 @@ describe("object with quoted number & boolean async stringify", () => {
         })
     })
 })
+
