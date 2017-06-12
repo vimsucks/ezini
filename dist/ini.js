@@ -28,9 +28,10 @@ function parseSync(str) {
             match = line.match(/^(.*)\=(.*)$/);
             if (match && match[1] !== undefined && match[2] != undefined) {
                 if (section === null) {
-                    output[match[1].trim()] = match[2].trim().replace(/^"|"$/g, "");
+                    output[key] = value
                 } else {
-                    output[section][match[1].trim()] = match[2].trim().replace(/^"|"$/g, "");
+                    output[section][match[1].trim()] = match[2].trim().replace(/^"|"$/g, "")
+                    output[section][key] = value
                 }
             } else {
                 return;

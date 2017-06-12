@@ -35,11 +35,15 @@ Giving a example ini file `foobar.ini` which looks like this:
 [owner]
 name=John Do
 organization=Acme eProducts
+rich=true
+richStr="true"
+
 
 [database]
 server=192.0.2.42
 ; use IP address in case network name resolution is not working
-port=143 ; server port
+port=143
+portStr="143"
 file = "acme payroll.dat"
 ```
 You can parse this ini file like this:
@@ -51,8 +55,16 @@ ini.parse(strINI, (obj) => {
 ```
 and then `obj` whould looks like this:
 ```javascript
-{ owner: { name: 'John Do', organization: 'Acme eProducts' },
-database: { server: '192.0.2.42', port: '143', file: 'acme payroll.dat' } }
+{ owner: 
+   { name: 'John Do',
+     organization: 'Acme eProducts',
+     rich: true,
+     richStr: 'true' },
+  database: 
+   { server: '192.0.2.42',
+     port: 143,
+     portStr: '143',
+     file: 'acme payroll.dat' } }
 ```
 You can also stringify the object:
 ```javascript
@@ -65,9 +77,12 @@ ini.stringify(obj, (str) => {
 [owner]
 name=John Do
 organization=Acme eProducts
+rich=true
+richStr="true"
 
 [database]
 server=192.0.2.42
 port=143
+portStr="143"
 file=acme payroll.dat
 ```

@@ -26,10 +26,26 @@ function parseSync(str) {
         } else {
             match = line.match(/^(.*)\=(.*)$/)
             if (match && match[1] !== undefined && match[2] != undefined) {
+                var key=match[1].trim()
+                var value=match[2].trim()
+                if (value.toLowerCase() === "true" || value.toLowerCase() === "false") {
+                    value = Boolean(value)
+                } else {
+                    var origin = value
+                    try {
+                        value = Number(value)
+                        if (isNaN(value)) {
+                            value = origin.replace(/^"|"$/g, "")
+                        }
+                    } catch(err) {
+                        value = origin.replace(/^"|"$/g, "")
+                    }
+                }
                 if (section === null) {
                     output[match[1].trim()]=match[2].trim().replace(/^"|"$/g, "")
+                    output[key] = value
                 } else {
-                    output[section][match[1].trim()]=match[2].trim().replace(/^"|"$/g, "")
+                    output[section][key] = value
                 }
             } else {
                 return
@@ -62,7 +78,14 @@ function stringifySync(obj) {
             }
             output += "[" + key + "]" + os.EOL
             Object.keys(obj[key]).forEach((innerKey) => {
-                output += innerKey + "=" + obj[key][innerKey] + os.EOL
+                var value = obj[key][innerKey]
+                if (typeof value === "string") {
+                    if (!isNaN(Number(value)) || value.toLowerCase() === "true" || value.toLowerCase() === "false") {
+                        value = "\"" + value + "\""
+                    }
+                }
+                // output += innerKey + "=" + obj[key][innerKey] + os.EOL
+                output += innerKey + "=" + value + os.EOL
             })
         }
     })
