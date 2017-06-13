@@ -1,4 +1,4 @@
-const ini = require("../ini")
+const ini = require("../ezini")
 const fs = require("fs")
 const path = require("path")
 require("should")
