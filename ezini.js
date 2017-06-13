@@ -1,5 +1,6 @@
 const os = require("os")
 
+
 /**
  * Parse a INI-format string to an object
  * @param {string} str INI-format string
@@ -8,7 +9,6 @@ const os = require("os")
 function parseSync(str) {
 	const output = {}
 	let section = null
-
 	const lines = str.split(os.EOL)
 	lines.forEach((rawLine) => {
 		// skip if empty or comment line
@@ -16,7 +16,7 @@ function parseSync(str) {
 		const line = rawLine.replace(/;.*/, "")
 		if (line.trim().length === 0) return
 		// if this line is section
-		let match = line.match(/^\[(.*)\]$/)
+		let match = line.match(/^\[(.*)]$/)
 		if (match && match[1] !== undefined) {
 			section = match[1].trim()
 			output[section] = {}
@@ -27,14 +27,15 @@ function parseSync(str) {
 				const key = match[1].trim()
 				let value = match[2].trim()
 				if (value.toLowerCase() === "true" || value.toLowerCase() === "false") {
-					value = Boolean(value)
+					value = !!value
 				} else if (!isNaN(value)) {
 					// if value is a number
-					value = Number(value)
+					value = +value
 				} else {
 					// regard value as string
 					value = value.replace(/^"|"$/g, "")
 				}
+
 				if (section === null) {
 					output[match[1].trim()] = match[2].trim().replace(/^"|"$/g, "")
 					output[key] = value
@@ -44,6 +45,7 @@ function parseSync(str) {
 			}
 		}
 	})
+
 	return output
 }
 
@@ -79,6 +81,7 @@ function stringifySync(obj) {
 			} else {
 				output += os.EOL
 			}
+
 			output += `[${key}]`
 			output += os.EOL
 			Object.keys(obj[key]).forEach((innerKey) => {
@@ -91,11 +94,13 @@ function stringifySync(obj) {
 						value = `"${value}"`
 					}
 				}
+
 				output += `${innerKey}=${value}`
 				output += os.EOL
 			})
 		}
 	})
+
 	return output
 }
 
