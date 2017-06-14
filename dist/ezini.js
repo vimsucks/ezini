@@ -1,55 +1,56 @@
-const os = require("os")
+"use strict";
 
+var os = require("os"
 
 /**
  * Parse a INI-format string to an object
  * @param {string} str INI-format string
  * @returns {Object} Object parsed from the given string
  */
-function parseSync(str) {
-	const output = {}
-	let section = null
+);function parseSync(str) {
+	var output = {};
+	var section = null;
 	if (str.trim().length === 0) {
-		return 		{}
+		return {};
 	}
-	const lines = str.split(os.EOL)
-	lines.forEach((rawLine) => {
+	var lines = str.split(os.EOL);
+	lines.forEach(function (rawLine) {
 		// skip if empty or comment line
 		// remove comment
-		const line = rawLine.replace(/;.*/, "")
-		if (line.trim().length === 0) return
+		var line = rawLine.replace(/;.*/, "");
+		if (line.trim().length === 0) return;
 		// if this line is section
-		let match = line.match(/^\[(.*)]$/)
+		var match = line.match(/^\[(.*)]$/);
 		if (match && match[1] !== undefined) {
-			section = match[1].trim()
-			output[section] = {}
+			section = match[1].trim();
+			output[section] = {};
 		} else {
-			match = line.match(/^(.*)=(.*)$/)
+			match = line.match(/^(.*)=(.*)$/);
 			if (match && match[1] !== undefined && match[2] !== undefined) {
 				// if value is a boolean value
-				const key = match[1].trim()
-				let value = match[2].trim()
+				var key = match[1].trim();
+				var value = match[2].trim();
 				if (value.toLowerCase() === "true" || value.toLowerCase() === "false") {
-					value = !!value
+					value = !!value;
 				} else if (!isNaN(value)) {
 					// if value is a number
-					value = +value
+					value = +value;
 				} else {
 					// regard value as string
-					value = value.replace(/^"|"$/g, "")
+					value = value.replace(/^"|"$/g, "");
 				}
 
 				if (section === null) {
-					output[match[1].trim()] = match[2].trim().replace(/^"|"$/g, "")
-					output[key] = value
+					output[match[1].trim()] = match[2].trim().replace(/^"|"$/g, "");
+					output[key] = value;
 				} else {
-					output[section][key] = value
+					output[section][key] = value;
 				}
 			}
 		}
-	})
+	});
 
-	return output
+	return output;
 }
 
 /**
@@ -59,10 +60,10 @@ function parseSync(str) {
  *     should have one parameter: obj(the parsed object)
  */
 function parse(str, callback) {
-	process.nextTick(() => {
-		const output = parseSync(str)
-		callback(output)
-	})
+	process.nextTick(function () {
+		var output = parseSync(str);
+		callback(output);
+	});
 }
 
 /**
@@ -71,40 +72,40 @@ function parse(str, callback) {
  * @returns {string} INI-format string which is stringified from given object
  */
 function stringifySync(obj) {
-	let output = ""
-	let firstOccur = true
+	var output = "";
+	var firstOccur = true;
 
-	Object.keys(obj).forEach((key) => {
+	Object.keys(obj).forEach(function (key) {
 		if (typeof obj[key] === "string") {
-			output += `${key}=${obj[key]}`
-			output += os.EOL
+			output += key + "=" + obj[key];
+			output += os.EOL;
 		} else {
 			if (firstOccur) {
-				firstOccur = false
+				firstOccur = false;
 			} else {
-				output += os.EOL
+				output += os.EOL;
 			}
 
-			output += `[${key}]`
-			output += os.EOL
-			Object.keys(obj[key]).forEach((innerKey) => {
-				let value = obj[key][innerKey]
+			output += "[" + key + "]";
+			output += os.EOL;
+			Object.keys(obj[key]).forEach(function (innerKey) {
+				var value = obj[key][innerKey];
 				if (typeof value === "string") {
 					// if value can ber converted to number or boolean,
 					// but it should be a string,
 					// so keep the quotes to indicate its type
 					if (!isNaN(value) || value.toLowerCase() === "true" || value.toLowerCase() === "false") {
-						value = `"${value}"`
+						value = "\"" + value + "\"";
 					}
 				}
 
-				output += `${innerKey}=${value}`
-				output += os.EOL
-			})
+				output += innerKey + "=" + value;
+				output += os.EOL;
+			});
 		}
-	})
+	});
 
-	return output
+	return output;
 }
 
 /**
@@ -114,14 +115,14 @@ function stringifySync(obj) {
  *     should have one parameter: str(stringified from given object)
  */
 function stringify(obj, callback) {
-	process.nextTick(() => {
-		const str = stringifySync(obj)
-		callback(str)
-	})
+	process.nextTick(function () {
+		var str = stringifySync(obj);
+		callback(str);
+	});
 }
 
-
-exports.parse = parse
-exports.parseSync = parseSync
-exports.stringify = stringify
-exports.stringifySync = stringifySync
+exports.parse = parse;
+exports.parseSync = parseSync;
+exports.stringify = stringify;
+exports.stringifySync = stringifySync;
+//# sourceMappingURL=ezini.js.map

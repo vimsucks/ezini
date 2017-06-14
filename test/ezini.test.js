@@ -9,6 +9,12 @@ const objINI = { owner: { name: "John Do", organization: "Acme eProducts" },
 	database: { server: "192.0.2.42", port: 143, file: "acme payroll.dat" } }
 const strINI = fs.readFileSync(path.resolve(__dirname, "ini/standard.ini"), "utf-8")
 
+describe('empty str parsing', () => {
+	it('output should equal an empty Object', () => {
+		ini.parseSync("").should.eql({})
+	});
+});
+
 describe("empty line ini parsing", () => {
 	it("output object should equal given object", () => {
 		const str = fs.readFileSync(path.join(iniFolder, "empty_line.ini"), "utf-8")
@@ -134,4 +140,3 @@ describe("object with quoted number & boolean async stringify", () => {
 		})
 	})
 })
-

@@ -1,7 +1,8 @@
 {
   "name": "ezini",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "ini parsing/serializing made easy",
+	"main": "ezini.js",
   "scripts": {
     "test": "istanbul cover _mocha"
   },
@@ -24,6 +25,9 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-env": "^1.5.2",
+    "eslint": "^4.0.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.3.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "should": "^11.2.1"
