@@ -34,9 +34,6 @@ function parseSync(str) {
 				} else if (!isNaN(value)) {
 					// if value is a number
 					value = +value
-				} else {
-					// regard value as string
-					value = value.replace(/^"|"$/g, "")
 				}
 
 				if (section === null) {
