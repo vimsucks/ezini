@@ -6,11 +6,11 @@ const os = require("os")
  * @param {string} str INI-format string
  * @returns {Object} Object parsed from the given string
  */
-function parseSync(str) {
+function parseSync(str, options = {}) {
 	const output = {}
 	let section = null
 	if (str.trim().length === 0) {
-		return 		{}
+		return {}
 	}
 	const lines = str.split(os.EOL)
 	lines.forEach((rawLine) => {
@@ -34,10 +34,12 @@ function parseSync(str) {
 				} else if (!isNaN(value)) {
 					// if value is a number
 					value = +value
+				} else if (!options.preserveQuotes) {
+					// regard value as string
+					value = value.replace(/^"|"$/g, "")
 				}
 
 				if (section === null) {
-					output[match[1].trim()] = match[2].trim().replace(/^"|"$/g, "")
 					output[key] = value
 				} else {
 					output[section][key] = value
@@ -55,9 +57,13 @@ function parseSync(str) {
  * @param callback Callback after parsing complete,
  *     should have one parameter: obj(the parsed object)
  */
-function parse(str, callback) {
+function parse(str, options, callback) {
+	if (typeof options === 'function') {
+		callback = options
+		options = {}
+	}
 	process.nextTick(() => {
-		const output = parseSync(str)
+		const output = parseSync(str, options)
 		callback(output)
 	})
 }
