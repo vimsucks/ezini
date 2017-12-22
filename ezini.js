@@ -75,7 +75,7 @@ function stringifySync(obj) {
 	let firstOccur = true
 
 	Object.keys(obj).forEach((key) => {
-		if (typeof obj[key] === "string") {
+		if ([ "string", "number", "boolean" ].includes(typeof obj[key])) {
 			output += `${key}=${obj[key]}`
 			output += os.EOL
 		} else {

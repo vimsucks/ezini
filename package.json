@@ -2,7 +2,7 @@
   "name": "ezini",
   "version": "1.2.2",
   "description": "ini parsing/serializing made easy",
-	"main": "ezini.js",
+  "main": "ezini.js",
   "scripts": {
     "test": "istanbul cover _mocha"
   },
