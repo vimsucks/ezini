@@ -1,6 +1,6 @@
 {
   "name": "ezini",
-  "version": "1.2.3",
+  "version": "1.2.5",
   "description": "ini parsing/serializing made easy",
   "main": "ezini.js",
   "scripts": {

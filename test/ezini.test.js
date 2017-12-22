@@ -96,6 +96,17 @@ describe("empty line ini async parsing", () => {
 	})
 })
 
+describe("parsing with option \"preserveQuotes\"", () => {
+	it("output object should equal given object", () => {
+		const str = fs.readFileSync(path.join(iniFolder, "preserveQuotes.ini"), "utf-8")
+		const obj = JSON.parse(JSON.stringify(objINI))
+		obj.owner.name = "\"" + obj.owner.name + "\""
+		obj.owner.organization = "\"" + obj.owner.organization + "\""
+        obj.database.file = "\"" + obj.database.file + "\""
+		ini.parseSync(str, {preserveQuotes: true}).should.eql(obj)
+	})
+})
+
 describe("composite str parsing", () => {
 	it("output object should equal given object", () => {
 		const str = fs.readFileSync(path.join(iniFolder, "composite.ini"), "utf-8")
